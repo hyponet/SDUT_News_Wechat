@@ -89,7 +89,7 @@ def bind():
             'grant_type': 'authorization_code'
         }
         res = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token", params=params)
-        dic = json.loads(res,text)
+        dic = json.loads(res.text)
         return render_template('bind.html', id=dic['openid'])
     elif request.method == 'POST':
         student = {
