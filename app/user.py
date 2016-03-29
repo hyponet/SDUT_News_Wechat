@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-def update_user(user):
+import json
 
-    return user
+def update_user(user):
+    return json.dumps(user)
