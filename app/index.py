@@ -57,17 +57,21 @@ def index():
             elif event_key == 'LIBRARY':
                 return text % (from_user_name, to_user_name, create_time, "图书馆")
             elif event_key == 'ACCOUNT':
-                return text % (from_user_name, to_user_name, create_time, "账号绑定")
-            elif event_key == 'STUDENT_POINT':
-                return text % (from_user_name, to_user_name, create_time, "绩点")
-            elif event_key == 'STUDENT_GRADE':
                 return info % (from_user_name, to_user_name, create_time, 
                                "绑定账号信息",
                                "把微信号与学号，教务处账号，图书馆账号绑定，然后就把剩下的查询工作交给我们吧！",
                                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
                                "&redirect_uri=" + url_for('login', _external=True) +
                                "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
+            elif event_key == 'STUDENT_POINT':
+                return text % (from_user_name, to_user_name, create_time, "绩点")
+            elif event_key == 'STUDENT_GRADE':
+                return text % (from_user_name, to_user_name, create_time, "打印成绩？")
 
+        return text % (from_user_name, to_user_name, create_time, 
+                       "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
+                        "&redirect_uri=" + url_for('login', _external=True) +
+                        "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
         return info % (from_user_name, to_user_name, create_time, "梦续代码", "念念不忘，必有回响", "http://www.ihypo.net")
 
 
