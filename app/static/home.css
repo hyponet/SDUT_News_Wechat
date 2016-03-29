@@ -1,0 +1,45 @@
+/* Space out content a bit */
+body {
+    padding-top: 10%;
+    background-color: #1fb923;
+    background-image: url("/static/pixels.png");
+
+}
+
+.footer {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.container{
+}
+
+/* Custom page footer */
+.footer {
+    margin-top: 20px;
+    padding-top: 19px;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
+
+form {
+    padding: 10px;
+    margin-top: 20px;
+}
+
+form div{
+    padding-bottom: 20px;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    /* Remove the padding we set earlier */
+    .footer {
+        padding-right: 0;
+        padding-left: 0;
+    }
+    /* Space out the masthead */
+    .header {
+        margin-bottom: 30px;
+    }
+}
