@@ -5,6 +5,7 @@ from flask import request, abort, url_for, render_template
 import xml.etree.ElementTree as ET
 import hashlib
 import requests
+import json
 import os
 
 from app import app, APPID, APPSECRET
@@ -88,7 +89,8 @@ def bind():
             'grant_type': 'authorization_code'
         }
         res = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token", params=params)
-        return render_template('bind.html', id=res.openid)
+        dic = json.loads(res,text)
+        return render_template('bind.html', id=dic['openid'])
     elif request.method == 'POST':
         student = {
             'id': request.form['id'],
