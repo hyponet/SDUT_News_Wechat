@@ -35,17 +35,46 @@ def index():
         message_type = root.findall('MsgType')[0].text  # 消息类型text
         content = root.findall('Content')[0].text  # 消息内容
         message_id = root.findall('MsgId')[0].text  # 消息的ID
-        return """
-        <xml>
-        <ToUserName><![CDATA[%s]]></ToUserName>
-        <FromUserName><![CDATA[%s]]></FromUserName>
-        <CreateTime>%s</CreateTime>
-        <MsgType><![CDATA[news]]></MsgType>
-        <ArticleCount>1</ArticleCount>
-        <Articles>
-        <item>
-        <Title><![CDATA[欢迎使用gotit]]></Title>
-        <Description><![CDATA[系统检测到您并未绑定，点击此页面前去绑定。或者您并不想进行绑定，请点击菜单栏的‘无绑定查询’]]></Description>
-        <Url><![CDATA[lvhuiyang.cn/wechat/building]]></Url>
-        </item>
-        </xml>""" % (from_user_name, to_user_name, create_time)
+        event  = root.findall('Event')[0].text  # 事件类型
+        event_key = root.findall('EventKey')[0].text  # 事件Key值
+
+        if event == 'CLICK':
+            if event_key == 'SCHEDULE':
+                return text % (from_user_name, to_user_name, create_time, "课表")
+            elif event_key == 'LIBRARY':
+                return text % (from_user_name, to_user_name, create_time, "图书馆")
+            elif event_key == 'ACCOUNT':
+                return text % (from_user_name, to_user_name, create_time, "账号绑定")
+            elif event_key == 'STUDENT_POINT':
+                return text % (from_user_name, to_user_name, create_time, "绩点")
+            elif event_key == 'STUDENT_GRADE':
+                return text % (from_user_name, to_user_name, create_time, "成绩")
+
+        return info % (from_user_name, to_user_name, create_time, "梦续代码", "念念不忘，必有回响", "http://www.ihypo.net")
+
+
+info = """
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[news]]></MsgType>
+<ArticleCount>1</ArticleCount>
+<Articles>
+<item>
+<Title><![CDATA[%s]]></Title>
+<Description><![CDATA[%s]]></Description>
+<Url><![CDATA[%s]]></Url>
+</item>
+</xml>
+"""
+
+text="""
+<xml>
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[%s]]></Content>
+</xml>
+"""
