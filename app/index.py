@@ -33,10 +33,22 @@ def index():
         from_user_name = root.findall('FromUserName')[0].text  # 用户微信id
         create_time = root.findall('CreateTime')[0].text  # 消息创建时间 （整型）
         message_type = root.findall('MsgType')[0].text # 消息类型text
-        content = root.findall('Content')[0].text or '' # 消息内容
-        message_id = root.findall('MsgId')[0].text or ''  # 消息的ID
-        event  = root.findall('Event')[0].text or '' # 事件类型
-        event_key = root.findall('EventKey')[0].text or ''  # 事件Key值
+        try:
+            content = root.findall('Content')[0].text # 消息内容
+        except:
+            content = ''
+        try:
+            message_id = root.findall('MsgId')[0].text # 消息的ID
+        except:
+            message_id = ''
+        try:
+            event  = root.findall('Event')[0].text # 事件类型
+        except:
+            event = ''
+        try:
+            event_key = root.findall('EventKey')[0].text or ''  # 事件Key值
+        except:
+            event_key = ''
 
         if event == 'CLICK':
             if event_key == 'SCHEDULE':
