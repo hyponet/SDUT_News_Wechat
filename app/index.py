@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-from flask import request, abort
+from flask import request, abort, url_for
 import xml.etree.ElementTree as ET
 import hashlib
+import requests
 import os
 
-from app import app
+from app import app, APPID, APPSECRET
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -60,9 +61,27 @@ def index():
             elif event_key == 'STUDENT_POINT':
                 return text % (from_user_name, to_user_name, create_time, "绩点")
             elif event_key == 'STUDENT_GRADE':
-                return text % (from_user_name, to_user_name, create_time, "成绩")
+                return info % (from_user_name, to_user_name, create_time, 
+                               "绑定账号信息",
+                               "把微信号与学号，教务处账号，图书馆账号绑定，然后就把剩下的查询工作交给我们吧！",
+                               "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
+                               "&redirect_uri=" + url_for('login', _external=True) +
+                               "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
 
         return info % (from_user_name, to_user_name, create_time, "梦续代码", "念念不忘，必有回响", "http://www.ihypo.net")
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    code = request.args.get('code') or ''
+    params = {
+        'appid': APPID,
+        'secret': APPSECRET,
+        'code': code,
+        'grant_type': 'authorization_code'
+    }
+    res = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token", params=params)
+    print res.text
 
 
 info = """
