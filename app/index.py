@@ -87,6 +87,8 @@ def login():
     res = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token", params=params)
     print res.text
 
+    return "SUCCESS"
+
 
 info = """
 <xml>
