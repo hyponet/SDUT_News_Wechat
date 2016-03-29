@@ -85,9 +85,7 @@ def login():
         'grant_type': 'authorization_code'
     }
     res = requests.get("https://api.weixin.qq.com/sns/oauth2/access_token", params=params)
-    print res.text
-
-    return "SUCCESS"
+    return res.text
 
 
 info = """
