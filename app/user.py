@@ -14,10 +14,9 @@ PASSWORD = os.getenv('MONGODB_PASSWORD')
 
 def update_user(user):
     client = MongoClient(host=HOST, port=int(PORT))
+    db = client[DATABASE]
     if USERNAME is not None:
-        db = client[DATABASE].authenticate(USERNAME, PASSWORD, DATABASE, mechanism='MONGODB-CR')
-    else:
-        db = client[DATABASE]
+        db.authenticate(USERNAME, PASSWORD, DATABASE, mechanism='MONGODB-CR')
 
     try:
         print db
@@ -35,10 +34,9 @@ def update_user(user):
 
 def get_user(id):
     client = MongoClient(host=HOST, port=int(PORT))
+    db = client[DATABASE]
     if USERNAME is not None:
-        db = client[DATABASE].authenticate(USERNAME, PASSWORD, DATABASE, mechanism='MONGODB-CR')
-    else:
-        db = client[DATABASE]
+        db.authenticate(USERNAME, PASSWORD, DATABASE, mechanism='MONGODB-CR')
 
     try:
         userinfo = db['account'].find_one({'id': id})
