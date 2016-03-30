@@ -33,7 +33,9 @@ def get_user(id):
 
     try:
         userinfo = db['account'].find_one({'id': id})
+        if userinfo is not None:
+            userinfo = dict(userinfo)
     except:
         userinfo = None
 
-    return dict(userinfo)
+    return userinfo
