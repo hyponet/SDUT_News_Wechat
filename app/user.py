@@ -13,7 +13,7 @@ USERNAME = os.getenv('MONGODB_USERNAME')
 PASSWORD = os.getenv('MONGODB_PASSWORD')
 
 def update_user(user):
-    client = MongoClient(host=HOST, port=PORT)
+    client = MongoClient(host=HOST, port=int(PORT))
     if USERNAME is not None:
         db = client[DATABASE].authenticate(USERNAME, PASSWORD, DATABASE, mechanism='MONGODB-CR')
     else:
