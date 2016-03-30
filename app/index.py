@@ -54,19 +54,22 @@ def index():
             event_key = ''
 
         if event == 'CLICK':
+            userinfo = get_user(from_user_name)
+            if userinfo is None:
+                return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
+            
             if event_key == 'SCHEDULE':
-                return text % (from_user_name, to_user_name, create_time, "课表")
+                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的课表")
             elif event_key == 'LIBRARY':
-                return text % (from_user_name, to_user_name, create_time, "图书馆")
+                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的图书馆借阅信息")
             elif event_key == 'ACCOUNT':
-                userinfo = get_user(from_user_name)
                 if userinfo is not None:
                     return info % (from_user_name, to_user_name, create_time, 
-                               "账号已绑定",
-                               "您的学号为：" + userinfo['no'] + " 您可以点击链接来更改学号或者更新密码",
-                               "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
-                               "&redirect_uri=" + url_for('bind', _external=True) +
-                               "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
+                               u"账号已绑定",
+                               u"您的微信号已与学号(" + userinfo['no'] + u")绑定，您可以点击此处来更改学号或者更新密码",
+                               u"https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
+                               u"&redirect_uri=" + url_for('bind', _external=True) +
+                               u"&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
 
                 return info % (from_user_name, to_user_name, create_time, 
                                "绑定账号信息",
@@ -75,9 +78,9 @@ def index():
                                "&redirect_uri=" + url_for('bind', _external=True) +
                                "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
             elif event_key == 'STUDENT_POINT':
-                return text % (from_user_name, to_user_name, create_time, "绩点")
+                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的绩点")
             elif event_key == 'STUDENT_GRADE':
-                return text % (from_user_name, to_user_name, create_time, "打印成绩？")
+                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的学期成绩")
 
         return text % (from_user_name, to_user_name, create_time, 
                        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
@@ -110,7 +113,9 @@ def bind():
 
         ans = update_user(student)
 
-        return ans
+        if ans is True:
+            return "SUCCESS"
+        return "ERROR"
 
 
 info = """
