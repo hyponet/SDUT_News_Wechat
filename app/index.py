@@ -9,7 +9,7 @@ import json
 import os
 
 from app import app, APPID, APPSECRET
-from user import update_user
+from user import update_user, get_user
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -59,6 +59,15 @@ def index():
             elif event_key == 'LIBRARY':
                 return text % (from_user_name, to_user_name, create_time, "图书馆")
             elif event_key == 'ACCOUNT':
+                userinfo = get_user(from_user_name)
+                if userinfo is not None:
+                    return info % (from_user_name, to_user_name, create_time, 
+                               "账号已绑定",
+                               "您的学号为：" + userinfo['no'] + " 您可以点击链接来更改学号或者更新密码",
+                               "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
+                               "&redirect_uri=" + url_for('bind', _external=True) +
+                               "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
+
                 return info % (from_user_name, to_user_name, create_time, 
                                "绑定账号信息",
                                "把微信号与学号，教务处账号，图书馆账号绑定，然后就把剩下的查询工作交给我们吧！",

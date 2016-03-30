@@ -19,14 +19,36 @@ def update_user(user):
     else:
         db = client[DATABASE]
 
-#    return db
     try:
         print db
+        db['account'].update(
+        {
+            'id': user['id']
+        },
+        user,
+        upsert=True    
+        )
     except:
         pass
     return json.dumps(user)
 
 
+def get_user(id):
+    client = MongoClient(host=HOST, port=int(PORT))
+    if USERNAME is not None:
+        db = client[DATABASE].authenticate(USERNAME, PASSWORD, DATABASE, mechanism='MONGODB-CR')
+    else:
+        db = client[DATABASE]
+
+    try:
+        userinfo = db['account'].find_one({'id': id})
+    except:
+        userinfo = None
+
+    return userinfo
+
+
 if __name__ == '__main__':
-    print update_user([])
+    print update_user({'id': '123', 'no': 123})
+    print get_user('123')
 
