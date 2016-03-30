@@ -83,7 +83,7 @@ def index():
                 if userinfo is None:
                     return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
                 point = get_point(userinfo)
-                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"目前的绩点是：" + point['point'])
+                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"目前的绩点是：" + str(point['point']))
             elif event_key == 'STUDENT_GRADE':
                 if userinfo is None:
                     return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
