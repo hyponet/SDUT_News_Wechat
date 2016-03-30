@@ -10,6 +10,7 @@ import os
 
 from app import app, APPID, APPSECRET
 from user import update_user, get_user
+from ext import get_point
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -81,7 +82,8 @@ def index():
             elif event_key == 'STUDENT_POINT':
                 if userinfo is None:
                     return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
-                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的绩点")
+                point = get_point(userinfo)
+                return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"目前的绩点是：" + point['point'])
             elif event_key == 'STUDENT_GRADE':
                 if userinfo is None:
                     return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
