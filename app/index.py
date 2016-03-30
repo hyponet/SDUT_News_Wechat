@@ -55,12 +55,13 @@ def index():
 
         if event == 'CLICK':
             userinfo = get_user(from_user_name)
-            if userinfo is None:
-                return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
-            
             if event_key == 'SCHEDULE':
+                if userinfo is None:
+                    return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
                 return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的课表")
             elif event_key == 'LIBRARY':
+                if userinfo is None:
+                    return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
                 return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的图书馆借阅信息")
             elif event_key == 'ACCOUNT':
                 if userinfo is not None:
@@ -78,8 +79,12 @@ def index():
                                "&redirect_uri=" + url_for('bind', _external=True) +
                                "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
             elif event_key == 'STUDENT_POINT':
+                if userinfo is None:
+                    return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
                 return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的绩点")
             elif event_key == 'STUDENT_GRADE':
+                if userinfo is None:
+                    return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
                 return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的学期成绩")
 
         return text % (from_user_name, to_user_name, create_time, 
