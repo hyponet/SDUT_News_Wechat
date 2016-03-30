@@ -87,10 +87,6 @@ def index():
                     return text % (from_user_name, to_user_name, create_time, "您的微信号未与学号绑定，请您先绑定账号")
                 return text % (from_user_name, to_user_name, create_time, userinfo['no'] + u"的学期成绩")
 
-        return text % (from_user_name, to_user_name, create_time, 
-                       "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + APPID +
-                        "&redirect_uri=" + url_for('bind', _external=True) +
-                        "&response_type=code&scope=snsapi_base&state=ACCOUNT#wechat_redirect")
         return info % (from_user_name, to_user_name, create_time, "梦续代码", "念念不忘，必有回响", "http://www.ihypo.net")
 
 
